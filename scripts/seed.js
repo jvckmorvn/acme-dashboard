@@ -10,7 +10,6 @@ const bcrypt = require('bcrypt');
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    // Create the "users" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS users (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -22,7 +21,6 @@ async function seedUsers(client) {
 
     console.log(`Created "users" table`);
 
-    // Insert data into the "users" table
     const insertedUsers = await Promise.all(
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -50,7 +48,6 @@ async function seedInvoices(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-    // Create the "invoices" table if it doesn't exist
     const createTable = await client.sql`
     CREATE TABLE IF NOT EXISTS invoices (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -63,7 +60,6 @@ async function seedInvoices(client) {
 
     console.log(`Created "invoices" table`);
 
-    // Insert data into the "invoices" table
     const insertedInvoices = await Promise.all(
       invoices.map(
         (invoice) => client.sql`
@@ -90,7 +86,6 @@ async function seedCustomers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-    // Create the "customers" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS customers (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -102,7 +97,6 @@ async function seedCustomers(client) {
 
     console.log(`Created "customers" table`);
 
-    // Insert data into the "customers" table
     const insertedCustomers = await Promise.all(
       customers.map(
         (customer) => client.sql`
@@ -127,7 +121,6 @@ async function seedCustomers(client) {
 
 async function seedRevenue(client) {
   try {
-    // Create the "revenue" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS revenue (
         month VARCHAR(4) NOT NULL UNIQUE,
@@ -137,7 +130,6 @@ async function seedRevenue(client) {
 
     console.log(`Created "revenue" table`);
 
-    // Insert data into the "revenue" table
     const insertedRevenue = await Promise.all(
       revenue.map(
         (rev) => client.sql`
